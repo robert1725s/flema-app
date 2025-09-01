@@ -19,7 +19,7 @@
             <button type="submit" class="login__button">ログインする</button>
         </form>
         <div class="login__register">
-            <a href="#" class="login__register-link">会員登録はこちら</a>
+            <a href="/register" class="login__register-link">会員登録はこちら</a>
         </div>
     </div>
 @endsection

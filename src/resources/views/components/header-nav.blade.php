@@ -2,7 +2,11 @@
     <input type="text" placeholder="なにをお探しですか？" class="header__search-input">
 </div>
 <div class="header__nav">
-    <a href="#" class="header__nav-link">ログアウト</a>
+    <form action="/logout" method="post">
+
+        @csrf
+        <button type="submit" class="header__nav-link">ログアウト</button>
+    </form>
     <a href="#" class="header__nav-link">マイページ</a>
     <a href="#" class="header__nav-link header__nav-link--sell">出品</a>
 </div>
