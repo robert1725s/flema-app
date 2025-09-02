@@ -59,5 +59,10 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+
+        // ログイン試行のレート制限を設定（1分間に10回まで、429エラー対応）
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(10)->by($request->email . $request->ip());
+        });
     }
 }

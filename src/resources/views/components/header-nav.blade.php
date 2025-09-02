@@ -3,9 +3,8 @@
 </div>
 <div class="header__nav">
     <form action="/logout" method="post">
-
         @csrf
-        <button type="submit" class="header__nav-link">ログアウト</button>
+        <button type="submit" class="header__nav-button">ログアウト</button>
     </form>
     <a href="#" class="header__nav-link">マイページ</a>
     <a href="#" class="header__nav-link header__nav-link--sell">出品</a>
@@ -36,13 +35,13 @@
         display: flex;
         gap: 20px;
         align-items: center;
+        font-size: 24px;
+        font-weight: 400;
     }
 
     .header__nav-link {
         color: #ffffff;
         text-decoration: none;
-        font-size: 24px;
-        font-weight: 400;
     }
 
     .header__nav-link--sell {
@@ -53,7 +52,17 @@
         padding: 5px 20px;
     }
 
-    .header__nav-link:hover {
+    .header__nav-button {
+        background-color: #000000;
+        color: #ffffff;
+        border: none;
+        font-weight: 400;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .header__nav-link:hover,
+    .header__nav-button:hover {
         opacity: 0.8;
     }
 </style>
