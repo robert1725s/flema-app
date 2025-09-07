@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-// メール認証ページ
-Route::get('/verify-code', function () {
-    return view('auth.verify-notice');
-});
+// 商品一覧ページ
+Route::get('/', [ItemController::class, 'index']);
 
 Route::middleware('auth')->group(
     function () {
@@ -28,5 +23,8 @@ Route::middleware('auth')->group(
         Route::get('/mypage/profile', function () {
             return view('profile');
         });
+        // 商品出品ページ
+        Route::get('/sell', [ItemController::class, 'sell']);
+        Route::post('/sell', [ItemController::class, 'store']);
     }
 );
