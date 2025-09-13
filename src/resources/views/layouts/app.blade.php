@@ -17,7 +17,9 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <img src="{{ asset('images/logo.svg') }}" class="logo-image">
+                <a href="/">
+                    <img src="{{ asset('images/logo.svg') }}" class="logo-image">
+                </a>
             </div>
             @yield('header-items')
         </div>

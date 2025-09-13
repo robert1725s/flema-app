@@ -11,8 +11,10 @@
 @section('content')
     <div class="index__tab-container">
         <div class="index__tabs">
-            <a href="?{{ http_build_query(array_filter(array_merge(request()->query(), ['tab' => null]))) }}" class="index__tab {{ request('tab') != 'mylist' ? 'index__tab--active' : '' }}">おすすめ</a>
-            <a href="?{{ http_build_query(array_merge(request()->query(), ['tab' => 'mylist'])) }}" class="index__tab {{ request('tab') == 'mylist' ? 'index__tab--active' : '' }}">マイリスト</a>
+            <a href="?{{ http_build_query(array_filter(array_merge(request()->query(), ['tab' => null]))) }}"
+                class="index__tab {{ request('tab') != 'mylist' ? 'index__tab--active' : '' }}">おすすめ</a>
+            <a href="?{{ http_build_query(array_merge(request()->query(), ['tab' => 'mylist'])) }}"
+                class="index__tab {{ request('tab') == 'mylist' ? 'index__tab--active' : '' }}">マイリスト</a>
         </div>
     </div>
 
@@ -27,7 +29,7 @@
                         <div class="index__sold-label">SOLD</div>
                     @endif
                 </div>
-                <p class="index__item-name">{{ $item->name }}</p>
+                <div class="index__item-name">{{ $item->name }}</div>
             </div>
         @endforeach
     </div>

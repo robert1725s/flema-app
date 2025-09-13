@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,13 @@ Route::middleware('auth')->group(
         // メール認証誘導ページ
         Route::get('/notice', [UserController::class, 'notice']);
 
+        // マイページ
+        Route::get('/mypage', [UserController::class, 'mypage']);
+
         // プロフィール編集ページ
         Route::get('/mypage/profile', [UserController::class, 'profile']);
+        // プロフィール更新処理
+        Route::post('/mypage/profile', [UserController::class, 'update']);
 
         // 商品出品ページ
         Route::get('/sell', [ItemController::class, 'sell']);

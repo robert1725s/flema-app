@@ -23,7 +23,7 @@ class CreateItemsTable extends Migration
             $table->tinyInteger('condition');
             $table->foreignId('seller_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('purchaser_id')->nullable()->constrained('users');
-            $table->string('post_code')->nullable();
+            $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
             $table->string('building')->nullable();
             $table->timestamps();
