@@ -1,0 +1,63 @@
+/* 住所変更ページ */
+.address__container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.address__title {
+    font-size: 36px;
+    text-align: center;
+    margin: 48px 0 100px;
+}
+
+.address__form {
+    width: 100%;
+}
+
+.address__field {
+    margin-bottom: 70px;
+}
+
+.address__label {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.address__input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.address__input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+}
+
+.address__error {
+    color: #ff6b6b;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+.address__submit-button {
+    width: 100%;
+    padding: 14px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #FF5555;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.2s;
+}
+
+.address__submit-button:hover {
+    background-color: #ff5252;
+}

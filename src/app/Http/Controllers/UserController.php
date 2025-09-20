@@ -52,7 +52,7 @@ class UserController extends Controller
             }
 
             // 新しい画像を保存
-            $imagePath = $request->file('profile_image')->store('user', 'public');
+            $imagePath = $request->file('profile_image')->store('users', 'public');
         }
 
         // ユーザー情報を更新

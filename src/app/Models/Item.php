@@ -32,4 +32,39 @@ class Item extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    /**
+     * 商品の出品者
+     */
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    /**
+     * 商品の購入者
+     */
+    public function purchaser()
+    {
+        return $this->belongsTo(User::class, 'purchaser_id');
+    }
+
+    /**
+     * 商品へのコメント
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * ユーザーがこの商品をお気に入りしているか
+     */
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
 }
