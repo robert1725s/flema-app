@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
 
@@ -22,6 +22,7 @@
         </div>
     @endif
 
+    {{-- タブセクション --}}
     <div class="index__tab-container">
         <div class="index__tabs">
             <a href="?{{ http_build_query(array_filter(array_merge(request()->query(), ['tab' => null]))) }}"
@@ -31,21 +32,10 @@
         </div>
     </div>
 
+    {{-- 商品セクション --}}
     <div class="index__items">
         @foreach ($items as $item)
-            <div class="index__item">
-                <a href="/item/{{ $item->id }}" class="index__item-link">
-                    <div class="index__item-image">
-                        @if ($item->image_path)
-                            <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
-                        @endif
-                        @if ($item->purchaser_id !== null)
-                            <div class="index__sold-label">SOLD</div>
-                        @endif
-                    </div>
-                    <div class="index__item-name">{{ $item->name }}</div>
-                </a>
-            </div>
+            @include('components.item', ['item' => $item])
         @endforeach
     </div>
 @endsection

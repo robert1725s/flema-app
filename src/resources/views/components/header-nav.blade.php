@@ -1,6 +1,7 @@
+{{-- ヘッダーの検索欄、ナビを表示するコンポーネント --}}
 <div class="header__search">
     <form action="/" method="GET" class="header__search-form">
-        @if(request('tab'))
+        @if (request('tab'))
             <input type="hidden" name="tab" value="{{ request('tab') }}">
         @endif
         <input type="text" name="search" placeholder="なにをお探しですか？" class="header__search-input"
@@ -24,7 +25,7 @@
 </div>
 
 <style>
-    /* ヘッダー追加スタイル */
+    /* ヘッダー検索・ナビゲーションスタイル */
     .header__search {
         flex: 1;
         max-width: 500px;
@@ -89,7 +90,7 @@
         color: #000000;
         border-radius: 4px;
         margin-right: 25px;
-        padding: 5px 20px;
+        padding: 5px 25px;
     }
 
     .header__nav-button {
@@ -106,5 +107,40 @@
     .header__nav-link:hover,
     .header__nav-button:hover {
         opacity: 0.8;
+    }
+
+    /* 1400px未満用スタイル */
+    @media screen and (max-width: 1399px) {
+        .header__search-input {
+            height: 40px;
+            padding: 8px 50px 8px 20px;
+            font-size: 18px;
+        }
+
+        .header__search-button {
+            right: 8px;
+            padding: 6px;
+        }
+
+        .header__search-icon {
+            font-size: 16px;
+        }
+
+        .header__nav {
+            gap: 15px;
+            font-size: 18px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .header__nav-link--sell {
+            padding: 5px 20px;
+            margin-right: 0;
+            border-radius: 6px;
+        }
+
+        .header__nav-button {
+            font-size: 18px;
+        }
     }
 </style>

@@ -1,7 +1,8 @@
 .register__container {
     width: 100%;
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* タイトル */
@@ -9,8 +10,7 @@
     font-size: 36px;
     text-align: center;
     margin-top: 96px;
-    margin-bottom: 40px;
-    color: #000;
+    margin-bottom: 50px;
 }
 
 /* フォーム */
@@ -22,11 +22,14 @@
     margin-bottom: 38px;
 }
 
+.register__form-group:last-of-type {
+    margin-bottom: 116px;
+}
+
 .register__label {
     display: block;
     font-size: 24px;
     margin-bottom: 8px;
-    color: #333333;
 }
 
 .register__input {
@@ -36,6 +39,12 @@
     border: 1px solid #5f5f5f;
     border-radius: 4px;
     font-size: 24px;
+    transition: border-color 0.3s ease;
+}
+
+.register__input:focus {
+    outline: none;
+    border-color: #0073cc;
 }
 
 /* エラーメッセージ */
@@ -57,7 +66,8 @@
     border-radius: 4px;
     font-size: 26px;
     cursor: pointer;
-    margin-top: 75px;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
 }
 
 .register__submit:hover {
@@ -67,17 +77,69 @@
 /* ログインリンク */
 .register__login-link {
     text-align: center;
-    margin-top: 30px;
     margin-bottom: 55px;
 }
 
 .register__link {
     color: #0073cc;
     font-size: 20px;
+    font-weight: 400;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .register__link:hover {
     color: #357abd;
     text-decoration: underline;
+}
+
+/* タブレット用スタイル (768px-850px) */
+@media screen and (max-width: 850px) {
+    .register__container {
+        max-width: 550px;
+        padding: 0 25px;
+    }
+
+    .register__title {
+        font-size: 32px;
+        margin-top: 70px;
+        margin-bottom: 35px;
+    }
+
+    .register__form-group {
+        margin-bottom: 32px;
+    }
+
+    .register__label {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .register__input {
+        height: 55px;
+        padding: 0 14px;
+        font-size: 20px;
+        border-radius: 5px;
+    }
+
+    .register__error {
+        font-size: 16px;
+        margin-top: 6px;
+    }
+
+    .register__submit {
+        padding: 14px 0;
+        font-size: 24px;
+        margin-top: 60px;
+        border-radius: 5px;
+    }
+
+    .register__login-link {
+        margin-top: 25px;
+        margin-bottom: 45px;
+    }
+
+    .register__link {
+        font-size: 18px;
+    }
 }

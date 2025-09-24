@@ -28,7 +28,9 @@
                 @enderror
             </div>
 
+            <!-- ログインボタン -->
             <button type="submit" class="login__button">ログインする</button>
+
         </form>
         <div class="login__register">
             <a href="/register" class="login__register-link">会員登録はこちら</a>

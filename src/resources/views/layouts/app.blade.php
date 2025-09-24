@@ -16,15 +16,18 @@
 <body>
     <header class="header">
         <div class="header-content">
+            <!-- ロゴ -->
             <div class="logo">
-                <a href="/">
+                <a href="/" class="logo-link">
                     <img src="{{ asset('images/logo.svg') }}" class="logo-image">
                 </a>
             </div>
-            @yield('header-items')
+            <!-- ヘッダーナビコンポーネント -->
+            @yield('header-nav')
         </div>
     </header>
     <main>
+        <!-- メインコンテンツ -->
         @yield('content')
     </main>
 </body>

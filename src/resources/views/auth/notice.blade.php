@@ -11,6 +11,8 @@
         </div>
     @endif
     <div class="notice__container">
+
+        <!-- メッセージ -->
         <div class="notice__message">
             <p class="notice__text">
                 登録していただいたメールアドレスに認証メールを送付しました。<br>
@@ -20,9 +22,11 @@
 
 
         <div class="notice__actions">
+            <!-- Mailhogへのリンク -->
             <a href="http://localhost:8025/" class="notice__button">認証はこちらから</a>
             <form method="POST" action="{{ route('verification.send') }}" class="notice__form">
                 @csrf
+                <!-- 再送ボタン -->
                 <button type="submit" class="notice__link">認証メールを再送する</button>
             </form>
         </div>

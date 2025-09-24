@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
 
@@ -79,6 +79,7 @@
             <div class="detail__info">
                 <h2 class="detail__section-title">商品の情報</h2>
 
+                {{-- カテゴリー --}}
                 <div class="detail__info-row">
                     <span class="detail__info-label">カテゴリー</span>
                     <div class="detail__info-value">
@@ -92,6 +93,7 @@
                     </div>
                 </div>
 
+                {{-- 状態 --}}
                 <div class="detail__info-row">
                     <span class="detail__info-label">商品の状態</span>
                     <span class="detail__info-value">

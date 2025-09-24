@@ -1,6 +1,7 @@
 .notice__container {
     text-align: center;
     margin: 240px auto 0;
+    padding: 0 20px;
 }
 
 .notice__message {
@@ -9,8 +10,10 @@
 
 .notice__text {
     font-size: 24px;
-    color: #000;
-    font-weight: bold;
+}
+
+.notice__actions {
+    text-align: center;
 }
 
 .notice__button {
@@ -20,11 +23,11 @@
     border-radius: 10px;
     padding: 20px 32px;
     font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    margin-bottom: 55px;
+    margin-bottom: 60px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .notice__button:hover {
@@ -32,14 +35,19 @@
     color: #374151;
 }
 
+.notice__form {
+    margin: 0;
+}
+
 .notice__link {
-    color: #3b82f6;
+    color: #0073cc;
     text-decoration: none;
     font-size: 20px;
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
+    font-weight: normal;
 }
 
 .notice__link:hover {
@@ -57,4 +65,42 @@
     margin-bottom: 20px;
     border: 1px solid #c3e6cb;
     text-align: center;
+}
+
+/* タブレット用スタイル (768px-850px) */
+@media screen and (max-width: 850px) {
+    .notice__container {
+        margin: 180px auto 0;
+        max-width: 600px;
+    }
+
+    .notice__message {
+        margin-bottom: 50px;
+    }
+
+    .notice__text {
+        font-size: 18px;
+        line-height: 1.6;
+        padding: 0 10px;
+    }
+
+    .notice__button {
+        padding: 12px 20px;
+        font-size: 18px;
+        margin-bottom: 40px;
+        border-radius: 8px;
+        max-width: 300px;
+    }
+
+    .notice__link {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .notice__success-message {
+        font-size: 15px;
+        padding: 12px;
+        margin-bottom: 15px;
+        max-width: 500px;
+    }
 }

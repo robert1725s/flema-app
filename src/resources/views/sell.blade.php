@@ -4,9 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/sell.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
+
 
 @section('content')
     <div class="sell__container">
@@ -57,7 +58,7 @@
                     <label class="sell__label">商品の状態</label>
                     <div class="sell__select-wrapper">
                         <select class="sell__select" name="condition">
-                            <option value="">選択してください</option>
+                            <option value="" selected disabled hidden>選択してください</option>
                             <option value="1" {{ old('condition') == '1' ? 'selected' : '' }}>良好</option>
                             <option value="2" {{ old('condition') == '2' ? 'selected' : '' }}>目立った傷や汚れなし</option>
                             <option value="3" {{ old('condition') == '3' ? 'selected' : '' }}>やや傷や汚れあり</option>
@@ -120,6 +121,7 @@
         </form>
     </div>
 
+    <!-- 商品画像プレビュー機能 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const uploadButton = document.querySelector('.sell__upload-button');

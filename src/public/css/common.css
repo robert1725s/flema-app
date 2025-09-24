@@ -21,13 +21,47 @@ body {
     max-width: 1515px;
     margin: 0 auto;
     padding: 0 20px;
-    height: 80px;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
-    height: 36px;
     margin-left: 40px;
+}
+/* 1400px未満用スタイル */
+@media screen and (max-width: 1399px) {
+    .header {
+        height: auto;
+        min-height: 60px;
+    }
+
+    .header-content {
+        padding: 10px 15px;
+        height: auto;
+        min-height: 60px;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-right: 30px;
+    }
+
+    .logo-image {
+        height: 28px;
+    }
+}
+
+/* タブレット用スタイル (768px-850px) */
+@media screen and (max-width: 850px) {
+    .header-content {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin: 0 auto;
+    }
 }

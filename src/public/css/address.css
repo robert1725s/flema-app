@@ -61,3 +61,44 @@
 .address__submit-button:hover {
     background-color: #ff5252;
 }
+
+/* タブレット用スタイル (768px-850px) */
+@media screen and (max-width: 850px) {
+    .address__container {
+        max-width: 600px;
+        padding: 0 30px;
+    }
+
+    .address__title {
+        font-size: 28px;
+        margin: 35px 0 70px;
+    }
+
+    .address__field {
+        margin-bottom: 50px;
+    }
+
+    .address__label {
+        font-size: 20px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .address__input {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 6px;
+    }
+
+    .address__error {
+        font-size: 14px;
+        margin-top: 6px;
+    }
+
+    .address__submit-button {
+        padding: 12px;
+        font-size: 22px;
+        margin-top: 25px;
+        border-radius: 8px;
+    }
+}

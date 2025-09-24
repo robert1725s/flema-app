@@ -4,9 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
+
 
 @section('content')
     <div class="profile__container">
@@ -14,6 +15,8 @@
 
         <form class="profile__form" action="/mypage/profile" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <!-- プロフィール画像 -->
             <div class="profile__avatar">
                 <div class="profile__avatar-image">
                     @if (auth()->user()->image_path)
@@ -34,6 +37,7 @@
                 <p class="profile__error">{{ $message }}</p>
             @enderror
 
+            <!-- ユーザー名 -->
             <div class="profile__form-group">
                 <label class="profile__label">ユーザー名</label>
                 <input type="text" name="name" class="profile__input" value="{{ old('name', auth()->user()->name) }}">
@@ -42,6 +46,7 @@
                 @enderror
             </div>
 
+            <!-- 郵便番号 -->
             <div class="profile__form-group">
                 <label class="profile__label">郵便番号</label>
                 <input type="text" name="postal_code" class="profile__input"
@@ -51,6 +56,7 @@
                 @enderror
             </div>
 
+            <!-- 住所 -->
             <div class="profile__form-group">
                 <label class="profile__label">住所</label>
                 <input type="text" name="address" class="profile__input"
@@ -60,6 +66,7 @@
                 @enderror
             </div>
 
+            <!-- 建物名 -->
             <div class="profile__form-group">
                 <label class="profile__label">建物名</label>
                 <input type="text" name="building" class="profile__input"
@@ -73,6 +80,7 @@
         </form>
     </div>
 
+    <!-- プロフィール画像プレビュー機能 -->
     <script>
         function previewImage(event) {
             const file = event.target.files[0];

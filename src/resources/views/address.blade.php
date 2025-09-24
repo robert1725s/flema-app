@@ -4,9 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/address.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
+
 
 @section('content')
     <div class="address__container">
@@ -14,7 +15,7 @@
 
         <form class="address__form" action="/purchase/address/{{ $item_id }}" method="POST">
             @csrf
-
+            {{-- 郵便番号 --}}
             <div class="address__field">
                 <label class="address__label">郵便番号</label>
                 <input type="text" name="postal_code" class="address__input"
@@ -24,6 +25,7 @@
                 @enderror
             </div>
 
+            {{-- 住所 --}}
             <div class="address__field">
                 <label class="address__label">住所</label>
                 <input type="text" name="address" class="address__input"
@@ -33,6 +35,7 @@
                 @enderror
             </div>
 
+            {{-- 建物名 --}}
             <div class="address__field">
                 <label class="address__label">建物名</label>
                 <input type="text" name="building" class="address__input"
@@ -42,6 +45,7 @@
                 @enderror
             </div>
 
+            {{-- 更新ボタン --}}
             <button type="submit" class="address__submit-button">更新する</button>
         </form>
     </div>

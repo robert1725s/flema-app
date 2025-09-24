@@ -4,9 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
 @endsection
 
-@section('header-items')
+@section('header-nav')
     @include('components.header-nav')
 @endsection
+
 
 @section('content')
     <div class="mypage__container">
@@ -44,36 +45,12 @@
             @if (request('page') == 'buy')
                 {{-- 購入した商品を表示 --}}
                 @foreach ($purchasedItems as $item)
-                    <div class="mypage__item">
-                        <a href="/item/{{ $item->id }}" class="mypage__item-link">
-                            <div class="mypage__item-display">
-                                @if ($item->image_path)
-                                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                        class="mypage__item-image">
-                                @else
-                                    <div class="mypage__item-placeholder">商品画像</div>
-                                @endif
-                            </div>
-                            <div class="mypage__item-name">{{ $item->name }}</div>
-                        </a>
-                    </div>
+                    @include('components.item', ['item' => $item])
                 @endforeach
             @else
                 {{-- 出品した商品を表示（デフォルト） --}}
                 @foreach ($soldItems as $item)
-                    <div class="mypage__item">
-                        <a href="/item/{{ $item->id }}" class="mypage__item-link">
-                            <div class="mypage__item-display">
-                                @if ($item->image_path)
-                                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                                        class="mypage__item-image">
-                                @else
-                                    <div class="mypage__item-placeholder">商品画像</div>
-                                @endif
-                            </div>
-                            <div class="mypage__item-name">{{ $item->name }}</div>
-                        </a>
-                    </div>
+                    @include('components.item', ['item' => $item])
                 @endforeach
             @endif
         </div>

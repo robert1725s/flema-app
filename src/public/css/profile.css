@@ -6,11 +6,9 @@
 
 .profile__title {
     font-size: 36px;
-    font-weight: bold;
     text-align: center;
     margin-top: 60px;
     margin-bottom: 45px;
-    color: #000;
 }
 
 .profile__avatar {
@@ -35,7 +33,7 @@
 .profile__avatar-placeholder {
     width: 100%;
     height: 100%;
-    background-color: #cccccc;
+    background-color: #d9d9d9;
     border-radius: 50%;
 }
 
@@ -45,15 +43,14 @@
 
 .profile__avatar-button {
     background-color: transparent;
-    border: 2px solid #ff6b6b;
-    color: #ff6b6b;
-    padding: 10px 16px;
+    border: 2px solid #ff5555;
+    color: #ff5555;
+    padding: 7px 16px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
     transition: all 0.2s;
-    line-height: 1;
 }
 
 .profile__avatar-button:hover {
@@ -79,8 +76,6 @@
 
 .profile__label {
     font-size: 24px;
-    font-weight: bold;
-    color: #000;
 }
 
 .profile__input {
@@ -88,13 +83,12 @@
     border: 1px solid #5f5f5f;
     border-radius: 4px;
     font-size: 24px;
-    color: #000;
     transition: border-color 0.2s;
 }
 
 .profile__input:focus {
     outline: none;
-    border-color: #ff6b6b;
+    border-color: #007bff;
 }
 
 .profile__submit-button {
@@ -118,4 +112,67 @@
     color: #ff3838;
     font-size: 20px;
     margin-top: 5px;
+}
+
+/* タブレット対応 (768px-850px) */
+@media (max-width: 850px) {
+    .profile__container {
+        max-width: 600px;
+        padding: 0 20px;
+    }
+
+    .profile__title {
+        font-size: 28px;
+        margin-top: 40px;
+        margin-bottom: 35px;
+    }
+
+    .profile__avatar {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .profile__avatar-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+    }
+
+    .profile__avatar-button {
+        font-size: 18px;
+        padding: 8px 14px;
+    }
+
+    .profile__form-group {
+        margin-bottom: 30px;
+    }
+
+    .profile__form-group:nth-of-type(2),
+    .profile__form-group:nth-of-type(5) {
+        margin-bottom: 50px;
+    }
+
+    .profile__form-group:nth-of-type(2) {
+        margin-top: 50px;
+    }
+
+    .profile__label {
+        font-size: 20px;
+    }
+
+    .profile__input {
+        font-size: 20px;
+        padding: 8px 12px;
+    }
+
+    .profile__submit-button {
+        font-size: 22px;
+        padding: 12px;
+        margin: 15px 0 80px;
+    }
+
+    .profile__error {
+        font-size: 18px;
+    }
 }
