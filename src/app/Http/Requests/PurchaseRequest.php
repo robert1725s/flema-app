@@ -36,7 +36,7 @@ class PurchaseRequest extends FormRequest
     public function messages()
     {
         return [
-            'payment_method.required' => '支払い方法を選択してください。',
+            'payment_method.required' => '支払い方法を選択してください',
         ];
     }
 
@@ -60,7 +60,7 @@ class PurchaseRequest extends FormRequest
 
             // 配送先の必須チェック
             if (empty($shippingAddress['postal_code']) || empty($shippingAddress['address'])) {
-                $validator->errors()->add('shipping_address', '配送先を設定してください。');
+                $validator->errors()->add('shipping_address', '配送先を設定してください');
             }
         });
     }

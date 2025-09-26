@@ -23,7 +23,7 @@
 
         <div class="notice__actions">
             <!-- Mailhogへのリンク -->
-            <a href="http://localhost:8025/" class="notice__button">認証はこちらから</a>
+            <a href="{{ config('services.mailhog.url') }}" class="notice__button">認証はこちらから</a>
             <form method="POST" action="{{ route('verification.send') }}" class="notice__form">
                 @csrf
                 <!-- 再送ボタン -->

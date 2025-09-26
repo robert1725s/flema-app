@@ -14,7 +14,7 @@ class UserController extends Controller
         return view('auth.notice');
     }
 
-    public function profile()
+    public function Profile()
     {
         return view('profile');
     }

@@ -32,19 +32,6 @@ Route::middleware('auth')->group(
         // メール認証誘導ページ
         Route::get('/notice', [UserController::class, 'notice']);
 
-        // マイページ
-        Route::get('/mypage', [UserController::class, 'mypage']);
-
-        // プロフィール編集ページ
-        Route::get('/mypage/profile', [UserController::class, 'profile']);
-        // プロフィール更新処理
-        Route::post('/mypage/profile', [UserController::class, 'update']);
-
-        // 商品出品ページ
-        Route::get('/sell', [ItemController::class, 'sell']);
-        // 商品出品ページ 出品商品の保存処理
-        Route::post('/sell', [ItemController::class, 'store']);
-
         // お気に入り機能
         Route::post('/item/favorite/{item_id}', [ItemController::class, 'favorite']);
 
@@ -60,5 +47,18 @@ Route::middleware('auth')->group(
         Route::get('/purchase/address/{item_id}', [ItemController::class, 'editAddress']);
         // 住所更新処理
         Route::post('/purchase/address/{item_id}', [ItemController::class, 'updateAddress']);
+
+        // 商品出品ページ
+        Route::get('/sell', [ItemController::class, 'sell']);
+        // 商品出品ページ 出品商品の保存処理
+        Route::post('/sell', [ItemController::class, 'storeItem']);
+
+        // マイページ
+        Route::get('/mypage', [UserController::class, 'mypage']);
+
+        // プロフィール編集ページ
+        Route::get('/mypage/profile', [UserController::class, 'profile']);
+        // プロフィール更新処理
+        Route::post('/mypage/profile', [UserController::class, 'update']);
     }
 );

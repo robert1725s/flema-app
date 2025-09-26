@@ -50,7 +50,7 @@ class ItemController extends Controller
         return view('sell', compact('categories'));
     }
 
-    public function store(ExhibitionRequest $request)
+    public function storeItem(ExhibitionRequest $request)
     {
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -246,6 +246,20 @@ class ItemController extends Controller
             'building' => $user->building,
         ]);
 
+        // コンビニ支払いの場合はテスト用メールアドレスを設定、購入処理を実装
+        // (Stripeダッシュボードですぐに決済が完了されたことになる)
+        if ($paymentMethod === 'konbini') {
+            $email = "succeed_immediately@test.com";
+            $item->update([
+                'purchaser_id' => $user['id'],
+                'postal_code' => $shippingAddress['postal_code'],
+                'address' => $shippingAddress['address'],
+                'building' => $shippingAddress['building'],
+            ]);
+        } else {
+            $email = $user->email;
+        }
+
         // Stripeキーの確認
         $stripeSecret = config('services.stripe.secret');
         if (empty($stripeSecret) || $stripeSecret === 'your_stripe_secret_key_here') {
@@ -270,6 +284,7 @@ class ItemController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
+                'customer_email' => $email,
                 'success_url' => url('/purchase/success?session_id={CHECKOUT_SESSION_ID}'),
                 'cancel_url' => url('/purchase/cancel'),
                 'metadata' => [

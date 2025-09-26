@@ -52,7 +52,12 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
             {
-                if (auth()->user()->email_verified_at == null) {
+                $user = auth()->user();
+
+                if ($user->email_verified_at == null) {
+                    // メール未認証の場合、認証メールを送信
+                    $user->sendEmailVerificationNotification();
+
                     return redirect('/notice');
                 }
 

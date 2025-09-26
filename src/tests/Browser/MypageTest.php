@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 use App\Models\User;
 use App\Models\Item;
 use Illuminate\Support\Facades\Hash;
 
-class MypageTest extends TestCase
+class MypageTest extends DuskTestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     /**
      * ユーザー情報取得テスト：必要な情報が取得できる
@@ -26,10 +27,12 @@ class MypageTest extends TestCase
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
             'image_path' => 'user/test-profile.jpg',
-            'postal_code' => '123-4567',
+            'postal_code' => '1234567',
             'address' => '東京都渋谷区',
             'building' => 'テストビル',
         ]);
+        $user->email_verified_at = now();
+        $user->save();
 
         // 出品した商品を作成
         $soldItem1 = Item::create([
@@ -78,29 +81,34 @@ class MypageTest extends TestCase
             'purchaser_id' => $user->id,
         ]);
 
-        // ユーザーとしてログイン
-        $this->actingAs($user);
-
-        // マイページにアクセス（出品した商品タブ）
-        $response = $this->get('/mypage');
-        $response->assertStatus(200);
-
-        // ユーザー名が表示されている
-        $response->assertSee('テストユーザー');
-
-        // プロフィール画像のパスが含まれている
-        $response->assertSee('user/test-profile.jpg');
-
-        // 出品した商品が表示されている
-        $response->assertSee('出品商品1');
-        $response->assertSee('出品商品2');
-
-        // 購入した商品タブにアクセス
-        $response = $this->get('/mypage?page=buy');
-        $response->assertStatus(200);
-
-        // 購入した商品が表示されている
-        $response->assertSee('購入商品1');
-        $response->assertSee('購入商品2');
+        $this->browse(function (Browser $browser) use ($user, $soldItem1, $soldItem2, $purchasedItem1, $purchasedItem2) {
+            // ログインしてマイページにアクセス
+            $browser->loginAs($user)
+                ->visit('/mypage')
+                ->pause(2000)
+                // ユーザー名が表示されている
+                ->assertSee('テストユーザー')
+                // プロフィール画像が表示されている
+                ->assertPresent('.mypage__avatar-img')
+                ->pause(1000)
+                // 出品した商品が表示されている
+                ->assertSee('出品商品1')
+                ->assertSee('出品商品2')
+                ->pause(1000)
+                // 購入した商品が表示されていない
+                ->assertDontSee('購入商品1')
+                ->assertDontSee('購入商品2')
+                ->pause(1000)
+                // 購入した商品タブをクリック（リンクテキストで）
+                ->clickLink('購入した商品')
+                ->pause(2000)
+                // 購入した商品が表示されている
+                ->assertSee('購入商品1')
+                ->assertSee('購入商品2')
+                // 出品した商品が表示されていない
+                ->assertDontSee('出品商品1')
+                ->assertDontSee('出品商品2')
+                ->pause(1000);
+        });
     }
 }

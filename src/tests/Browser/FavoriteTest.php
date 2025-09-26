@@ -30,6 +30,8 @@ class FavoriteTest extends DuskTestCase
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
         ]);
+        $user->email_verified_at = now();
+        $user->save();
 
         $seller = User::create([
             'name' => '出品者',
@@ -50,23 +52,21 @@ class FavoriteTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user, $item) {
             // 1. ユーザーにログインする
-            $browser->loginAs($user)
+            $browser->visit('/login')
+                ->type('[name="email"]', 'test@example.com')
+                ->type('[name="password"]', 'password123')
+                ->press('ログインする')
                 // 2. 商品詳細ページを開く
                 ->visit("/item/{$item->id}")
                 ->assertSee('テスト商品')
                 ->assertSee('テストブランド')
                 // 初期状態ではいいね数が0
                 ->assertSeeIn('.detail__action-count', '0')
-                // 空の星アイコンが表示されている
-                ->assertPresent('.far.fa-star')
                 // 3. いいねアイコンを押下
                 ->click('.detail__action-button--favorite')
-                ->waitForReload()
+                ->pause(1000) // Ajax処理待機
                 // いいね後の状態を確認
-                ->assertSeeIn('.detail__action-count', '1')
-                // 塗りつぶされた星アイコンが表示されている
-                ->assertPresent('.fas.fa-star')
-                ->assertPresent('.detail__action-icon--active');
+                ->assertSeeIn('.detail__action-count', '1');
         });
 
         // データベースにお気に入りが登録されていることを確認
@@ -92,6 +92,8 @@ class FavoriteTest extends DuskTestCase
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
         ]);
+        $user->email_verified_at = now();
+        $user->save();
 
         $seller = User::create([
             'name' => '出品者',
@@ -110,9 +112,13 @@ class FavoriteTest extends DuskTestCase
             'seller_id' => $seller->id,
         ]);
 
-        $this->browse(function (Browser $browser) use ($user, $item) {
+        $this->browse(function (Browser $browser) use ($item) {
             // 1. ユーザーにログインする
-            $browser->loginAs($user)
+            $browser->visit('/login')
+                ->type('[name="email"]', 'test@example.com')
+                ->type('[name="password"]', 'password123')
+                ->press('ログインする')
+                ->assertPathIs('/')
                 // 2. 商品詳細ページを開く
                 ->visit("/item/{$item->id}")
                 // 初期状態では空の星アイコンが表示されている
@@ -121,7 +127,7 @@ class FavoriteTest extends DuskTestCase
                 ->assertMissing('.detail__action-icon--active')
                 // 3. いいねアイコンを押下
                 ->click('.detail__action-button--favorite')
-                ->waitForReload()
+                ->pause(1000) // Ajax処理待機
                 // アイコンの色が変化することを確認
                 ->assertPresent('.fas.fa-star')
                 ->assertPresent('.detail__action-icon--active')
@@ -145,6 +151,8 @@ class FavoriteTest extends DuskTestCase
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
         ]);
+        $user->email_verified_at = now();
+        $user->save();
 
         $seller = User::create([
             'name' => '出品者',
@@ -169,9 +177,13 @@ class FavoriteTest extends DuskTestCase
             'item_id' => $item->id,
         ]);
 
-        $this->browse(function (Browser $browser) use ($user, $item) {
+        $this->browse(function (Browser $browser) use ($item) {
             // 1. ユーザーにログインする
-            $browser->loginAs($user)
+            $browser->visit('/login')
+                ->type('[name="email"]', 'test@example.com')
+                ->type('[name="password"]', 'password123')
+                ->press('ログインする')
+                ->assertPathIs('/')
                 // 2. 商品詳細ページを開く
                 ->visit("/item/{$item->id}")
                 // 初期状態ではお気に入り済み（塗りつぶし星）
@@ -180,7 +192,7 @@ class FavoriteTest extends DuskTestCase
                 ->assertSeeIn('.detail__action-count', '1')
                 // 3. いいねアイコンを押下（解除）
                 ->click('.detail__action-button--favorite')
-                ->waitForReload()
+                ->pause(1000) // Ajax処理待機
                 // お気に入り解除後の状態を確認
                 ->assertSeeIn('.detail__action-count', '0')
                 ->assertPresent('.far.fa-star')

@@ -12,6 +12,29 @@ abstract class DuskTestCase extends BaseTestCase
     use CreatesApplication;
 
     /**
+     * 各テストの前に実行
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // ブラウザをリセット
+        $this->browse(function ($browser) {
+            $browser->visit('/')
+                ->deleteCookie('laravel_session')
+                ->deleteCookie('XSRF-TOKEN');
+        });
+    }
+
+    /**
+     * 各テストの後に実行
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
+    /**
      * Prepare for Dusk test execution.
      *
      * @beforeClass
@@ -48,9 +71,10 @@ abstract class DuskTestCase extends BaseTestCase
         })->all());
 
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            $_ENV['DUSK_DRIVER_URL'] ?? 'http://selenium:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
-                ChromeOptions::CAPABILITY, $options
+                ChromeOptions::CAPABILITY,
+                $options
             )
         );
     }
@@ -63,7 +87,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function hasHeadlessDisabled()
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-               isset($_ENV['DUSK_HEADLESS_DISABLED']);
+            isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
 
     /**
@@ -74,6 +98,6 @@ abstract class DuskTestCase extends BaseTestCase
     protected function shouldStartMaximized()
     {
         return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
-               isset($_ENV['DUSK_START_MAXIMIZED']);
+            isset($_ENV['DUSK_START_MAXIMIZED']);
     }
 }

@@ -18,7 +18,7 @@ class Item extends Model
         'condition',
         'seller_id',
         'purchaser_id',
-        'post_code',
+        'postal_code',
         'address',
         'building',
     ];
