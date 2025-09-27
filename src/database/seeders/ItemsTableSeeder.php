@@ -26,6 +26,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 1,
                 'seller_id' => 1,
                 'filename' => 'clock.jpg',
+                'categories' => [1, 4, 11], // ファッション, メンズ, アクセサリー
             ],
             [
                 'name' => 'HDD',
@@ -36,6 +37,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 2,
                 'seller_id' => 2,
                 'filename' => 'hdd_hard_disk.jpg',
+                'categories' => [2], // 家電
             ],
             [
                 'name' => '玉ねぎ3束',
@@ -44,8 +46,9 @@ class ItemsTableSeeder extends Seeder
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg',
                 'condition' => 3,
-                'seller_id' => 3,
+                'seller_id' => 1,
                 'filename' => 'onions.jpg',
+                'categories' => [9], // キッチン
             ],
             [
                 'name' => '革靴',
@@ -54,8 +57,9 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'クラシックなデザインの革靴',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg',
                 'condition' => 4,
-                'seller_id' => 4,
+                'seller_id' => 2,
                 'filename' => 'leather_shoes.jpg',
+                'categories' => [1, 4], // ファッション, メンズ
             ],
             [
                 'name' => 'ノートPC',
@@ -66,6 +70,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 1,
                 'seller_id' => 1,
                 'filename' => 'laptop.jpg',
+                'categories' => [2], // 家電
             ],
             [
                 'name' => 'マイク',
@@ -76,6 +81,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 2,
                 'seller_id' => 2,
                 'filename' => 'mic.jpg',
+                'categories' => [2], // 家電
             ],
             [
                 'name' => 'ショルダーバッグ',
@@ -84,8 +90,9 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'おしゃれなショルダーバッグ',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Purse+fashion+pocket.jpg',
                 'condition' => 3,
-                'seller_id' => 3,
+                'seller_id' => 1,
                 'filename' => 'shoulder_bag.jpg',
+                'categories' => [1], // ファッション
             ],
             [
                 'name' => 'タンブラー',
@@ -94,8 +101,9 @@ class ItemsTableSeeder extends Seeder
                 'description' => '使いやすいタンブラー',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Tumbler+souvenir.jpg',
                 'condition' => 4,
-                'seller_id' => 4,
+                'seller_id' => 2,
                 'filename' => 'tumbler.jpg',
+                'categories' => [9], // キッチン
             ],
             [
                 'name' => 'コーヒーミル',
@@ -106,6 +114,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 1,
                 'seller_id' => 1,
                 'filename' => 'coffee_grinder.jpg',
+                'categories' => [9, 3], // キッチン, インテリア
             ],
             [
                 'name' => 'メイクセット',
@@ -116,12 +125,14 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 2,
                 'seller_id' => 2,
                 'filename' => 'makeup_set.jpg',
+                'categories' => [5], // コスメ
             ],
         ];
 
         $items = [];
+        $itemCategories = [];
 
-        foreach ($itemsData as $itemData) {
+        foreach ($itemsData as $index => $itemData) {
             // 画像をダウンロード
             $response = Http::timeout(10)->get($itemData['img_url']);
 
@@ -141,7 +152,30 @@ class ItemsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            // カテゴリー関連付けデータを保存
+            $itemCategories[$index] = $itemData['categories'];
         }
-        DB::table('items')->insert($items);
+
+        // アイテムを個別に挿入してIDを取得
+        $itemCategoryData = [];
+        foreach ($items as $index => $itemData) {
+            $itemId = DB::table('items')->insertGetId($itemData);
+
+            // このアイテムのカテゴリー関連付けデータを作成
+            foreach ($itemCategories[$index] as $categoryId) {
+                $itemCategoryData[] = [
+                    'item_id' => $itemId,
+                    'category_id' => $categoryId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
+        // カテゴリー関連付けを一括挿入
+        if (!empty($itemCategoryData)) {
+            DB::table('item_categories')->insert($itemCategoryData);
+        }
     }
 }

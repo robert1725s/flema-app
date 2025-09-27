@@ -19,29 +19,17 @@ class UsersTableSeeder extends Seeder
     {
         $usersData = [
             [
-                'name' => 'kaede',
-                'email' => 'esfe@gmail.coe',
-                'password' => Hash::make('12345678'),
-                'filename' => 'kaede_profile.jpg',
-            ],
-            [
-                'name' => 'koki',
+                'name' => 'admin',
                 'email' => 'admin@hoge.com',
                 'password' => Hash::make('12345678'),
-                'filename' => 'koki_profile.jpg',
+                'filename' => 'admin_profile.jpg',
             ],
             [
-                'name' => 'PONI',
-                'email' => 'poni@hoge.com',
+                'name' => 'test',
+                'email' => 'test@hoge.com',
                 'password' => Hash::make('12345678'),
-                'filename' => 'poni_profile.jpg',
-            ],
-            [
-                'name' => 'あきら',
-                'email' => 'akira@hoge.com',
-                'password' => Hash::make('12345678'),
-                'filename' => 'akira_profile.jpg',
-            ],
+                'filename' => 'test_profile.jpg',
+            ]
         ];
 
         $users = [];
@@ -58,14 +46,22 @@ class UsersTableSeeder extends Seeder
                 Storage::disk('public')->put($imagePath, $response->body());
 
                 // データベース用のユーザーデータを準備
-                $users[] = [
+                $userData = [
                     'name' => $userData['name'],
                     'email' => $userData['email'],
                     'password' => $userData['password'],
                     'image_path' => $imagePath,
+                    'email_verified_at' => null,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+
+                // adminユーザーのみメール認証済みにする
+                if ($userData['email'] === 'admin@hoge.com') {
+                    $userData['email_verified_at'] = now();
+                }
+
+                $users[] = $userData;
             }
         }
 
