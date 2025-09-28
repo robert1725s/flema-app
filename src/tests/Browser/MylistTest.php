@@ -62,24 +62,16 @@ class MylistTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             // userとしてログイン
             $browser->visit('/login')
-                ->pause(2000) // ページ読み込み待機
                 ->type('[name="email"]', 'user@example.com')
-                ->pause(1000)
                 ->type('[name="password"]', 'password123')
-                ->pause(2000) // 入力内容確認
                 ->press('ログインする')
-                ->pause(3000) // ログイン処理待機
                 ->assertPathIs('/');
 
             // マイリストタブをクリックして確認
-            $browser->pause(2000) // ページ表示確認
-                ->visit('/')
-                ->pause(2000) // 商品一覧表示待機
+            $browser->visit('/')
                 ->clickLink('マイリスト') // マイリストタブをクリック
-                ->pause(2000) // マイリスト表示待機
                 ->assertSee('いいねした商品')
-                ->assertDontSee('通常商品')
-                ->pause(2000); // 最終確認
+                ->assertDontSee('通常商品');
         });
     }
 
@@ -129,24 +121,16 @@ class MylistTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             // userとしてログイン
             $browser->visit('/login')
-                ->pause(2000) // ページ読み込み待機
                 ->type('[name="email"]', 'user@example.com')
-                ->pause(1000)
                 ->type('[name="password"]', 'password123')
-                ->pause(2000) // 入力内容確認
                 ->press('ログインする')
-                ->pause(3000) // ログイン処理待機
                 ->assertPathIs('/');
 
             // マイリストタブをクリックして確認
-            $browser->pause(2000) // ページ表示確認
-                ->visit('/')
-                ->pause(2000) // 商品一覧表示待機
+            $browser->visit('/')
                 ->clickLink('マイリスト')
-                ->pause(2000) // マイリスト表示待機
                 ->assertSee('売却済みお気に入り商品')
-                ->assertSee('SOLD')
-                ->pause(2000); // 最終確認
+                ->assertSee('SOLD');
         });
     }
 
@@ -174,12 +158,9 @@ class MylistTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             // 未ログイン状態でマイリストタブアクセス
             $browser->visit('/')
-                ->pause(2000) // ページ読み込み待機
                 ->clickLink('マイリスト')
-                ->pause(2000) // マイリスト表示待機
                 ->assertDontSee('テスト商品')
-                ->assertPathIs('/') // ページ自体は表示される
-                ->pause(2000); // 最終確認
+                ->assertPathIs('/'); // ページ自体は表示される
         });
     }
 }

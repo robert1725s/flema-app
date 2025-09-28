@@ -41,14 +41,11 @@ class SellTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user, $categories) {
             // 1. ユーザーにログインする
-            $browser->loginAs($user)
-                ->pause(1000);
+            $browser->loginAs($user);
 
             // 2. 商品出品画面を開く
             $browser->visit('/sell')
-                ->pause(2000)
-                ->assertSee('商品の出品')
-                ->pause(1000);
+                ->assertSee('商品の出品');
 
             // 3. 各項目に適切な情報を入力して保存する
 
@@ -66,41 +63,31 @@ class SellTest extends DuskTestCase
             }
 
             $browser->attach('[name="image"]', $testImagePath)
-                ->pause(1000)
 
                 // カテゴリを選択（複数選択） - ラベルをクリックする方法
                 ->click(".sell__category-tag:nth-of-type(1)")
-                ->pause(500)
                 ->click(".sell__category-tag:nth-of-type(2)")
-                ->pause(500)
 
                 // 商品の状態を選択
                 ->select('[name="condition"]', '1')
-                ->pause(500)
 
                 // 商品名を入力
                 ->type('[name="name"]', 'テスト商品名')
-                ->pause(500)
 
                 // ブランド名を入力
                 ->type('[name="brand"]', 'テストブランド')
-                ->pause(500)
 
                 // 商品の説明を入力
                 ->type('[name="description"]', 'これはテスト商品の詳細な説明文です。商品の特徴や状態について記載しています。')
-                ->pause(500)
 
                 // 販売価格を入力
                 ->type('[name="price"]', '15000')
-                ->pause(1000)
 
                 // 出品するボタンをクリック
                 ->press('出品する')
-                ->pause(3000)
 
                 // 保存後の確認（実際の動作に合わせて/へリダイレクト）
-                ->assertPathIs('/')
-                ->pause(1000);
+                ->assertPathIs('/');
         });
 
         // データベースに商品が保存されたことを確認

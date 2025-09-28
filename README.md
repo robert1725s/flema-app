@@ -66,7 +66,7 @@ STRIPE_SECRET=sk_test_your_secret_key_here
 1. Stripe ダッシュボードで「設定」→「Payments」を選択
 2. 「決済手段」タブの「コンビニ決済」を有効にする
 
-※これをしないとコンビニ決済を選んだ際、Stripe決済画面に遷移できない
+※これをしないとコンビニ決済を選んだ際、Stripe 決済画面に遷移できない
 
 #### テスト用カード情報
 
@@ -84,7 +84,8 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 -   **PHP 8.1**
 -   **Laravel 8.8**
 -   **MySQL 8.0**
--   **ginx 1.21**
+-   **selenium 4.1.3**
+-   **mailhog 1.0.1**
 
 ## ER 図
 
@@ -92,3 +93,4 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 
 -   開発環境：http://localhost/
 -   phpMyadmin：http://localhost:8080/
+-   mailhog：http://localhost:8025/

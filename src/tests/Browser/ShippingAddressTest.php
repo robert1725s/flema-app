@@ -61,21 +61,17 @@ class ShippingAddressTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($buyer, $item) {
             // 1. ユーザーにログインする
-            $browser->loginAs($buyer)
-                ->pause(1000);
+            $browser->loginAs($buyer);
 
             // 商品購入画面を開く
-            $browser->visit('/purchase/' . $item->id)
-                ->pause(1000);
+            $browser->visit('/purchase/' . $item->id);
 
             // 初期の住所が表示されていることを確認
             $browser->assertSee('東京都渋谷区2-2-2')
-                ->assertSee('元の建物名')
-                ->pause(500);
+                ->assertSee('元の建物名');
 
             // 2. 送付先住所変更画面で住所を登録する
             $browser->clickLink('変更する')
-                ->pause(1000)
                 ->assertPathIs('/purchase/address/' . $item->id);
 
             // 新しい住所を入力
@@ -85,20 +81,16 @@ class ShippingAddressTest extends DuskTestCase
                 ->type('[name="address"]', '大阪府大阪市北区3-3-3')
                 ->clear('[name="building"]')
                 ->type('[name="building"]', '新しいマンション301号室')
-                ->pause(500)
-                ->press('更新する')
-                ->pause(2000);
+                ->press('更新する');
 
             // 3. 商品購入画面を再度開く
             $browser->assertPathIs('/purchase/' . $item->id)
-                ->pause(1000)
                 ->assertSee('テスト商品');
 
             // 新しい住所が反映されていることを確認
             $browser->assertSee('333-3333')
                 ->assertSee('大阪府大阪市北区3-3-3')
-                ->assertSee('新しいマンション301号室')
-                ->pause(1000);
+                ->assertSee('新しいマンション301号室');
 
             // 古い住所が表示されていないことを確認
             $browser->assertDontSee('222-2222')
@@ -123,8 +115,6 @@ class ShippingAddressTest extends DuskTestCase
             'postal_code' => '444-4444',
             'address' => '福岡県福岡市中央区4-4-4',
         ]);
-        $seller->email_verified_at = now();
-        $seller->save();
 
         $buyer = User::create([
             'name' => '購入者花子',
@@ -154,18 +144,15 @@ class ShippingAddressTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($buyer, $item) {
             // 1. ユーザーにログインする
-            $browser->loginAs($buyer)
-                ->pause(1000);
+            $browser->loginAs($buyer);
 
             // 商品購入画面を開く
             $browser->visit('/purchase/' . $item->id)
-                ->pause(1000)
                 ->assertSee('購入テスト商品')
                 ->assertSee('¥ 25,000');
 
             // 2. 送付先住所変更画面で住所を登録する
             $browser->clickLink('変更する')
-                ->pause(1000)
                 ->assertPathIs('/purchase/address/' . $item->id)
                 ->assertSee('住所の変更');
 
@@ -176,47 +163,27 @@ class ShippingAddressTest extends DuskTestCase
                 ->type('[name="address"]', '北海道札幌市中央区6-6-6')
                 ->clear('[name="building"]')
                 ->type('[name="building"]', '配送先マンション606号室')
-                ->pause(500)
-                ->press('更新する')
-                ->pause(2000);
+                ->press('更新する');
 
             // 購入画面に戻って住所が反映されていることを確認
             $browser->assertPathIs('/purchase/' . $item->id)
                 ->assertSee('666-6666')
                 ->assertSee('北海道札幌市中央区6-6-6')
-                ->assertSee('配送先マンション606号室')
-                ->pause(500);
+                ->assertSee('配送先マンション606号室');
 
-            // 支払い方法を選択（コンビニ払い）
-            $browser->select('[name="payment_method"]', 'konbini')
-                ->pause(500);
-
-            // 3. 商品を購入する
-            $browser->press('購入する')
-                ->pause(2000);
-
-            // 購入完了後の処理（Stripeを使用しない場合は直接データベース更新）
-            // テスト環境のため、購入処理を模擬
+            // 支払い方法を選択
+            $browser->select('[name="payment_method"]', 'card')
+                ->press('購入する');
         });
 
-        // コンビニ払いの場合は直接購入完了とする（テスト環境）
-        $item->update([
-            'purchaser_id' => $buyer->id,
-            'payment_method' => 'konbini',
-        ]);
 
         // データベースで購入情報と配送先住所を確認
-        $item->refresh();
-
-        // 購入者が設定されていることを確認
-        $this->assertEquals($buyer->id, $item->purchaser_id);
-
-        // 配送先住所が商品に紐付いて保存されていることを確認
-        // 注：実際の実装によっては、注文テーブルや配送先テーブルに保存される可能性があります
-        // ここでは、購入者の住所が更新されていることを確認します
-        $buyer->refresh();
-
-        // セッションまたは注文テーブルに配送先住所が保存されているかを確認
-        // （実装方法によって確認方法が異なる場合があります）
+        $this->assertDatabaseHas('items', [
+            'id' => $item->id,
+            'purchaser_id' => $buyer->id,
+            'postal_code' => '666-6666',
+            'address' => '北海道札幌市中央区6-6-6',
+            'building' => '配送先マンション606号室',
+        ]);
     }
 }

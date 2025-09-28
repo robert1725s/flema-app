@@ -54,24 +54,18 @@ class PaymentMethodTest extends DuskTestCase
             // 1. 支払い方法選択画面を開く
             $browser->loginAs($user)
                 ->visit("/purchase/{$item->id}")
-                ->pause(2000)
                 ->assertSee('テスト商品')
                 // 初期状態では「選択してください」が表示されている
                 ->assertSeeIn('.purchase__payment-display', '選択してください')
                 ->assertSelected('[name="payment_method"]', '')
-                ->pause(1000)
                 // 2. プルダウンメニューからコンビニ払いを選択
                 ->select('[name="payment_method"]', 'konbini')
-                ->pause(1000) // JavaScriptの処理を待つ
                 // 小計画面での変更確認
                 ->assertSeeIn('.purchase__payment-display', 'コンビニ払い')
-                ->pause(1000)
                 // カード支払いに変更
                 ->select('[name="payment_method"]', 'card')
-                ->pause(1000) // JavaScriptの処理を待つ
                 // 小計画面での変更確認
-                ->assertSeeIn('.purchase__payment-display', 'カード支払い')
-                ->pause(1000);
+                ->assertSeeIn('.purchase__payment-display', 'カード支払い');
         });
     }
 }

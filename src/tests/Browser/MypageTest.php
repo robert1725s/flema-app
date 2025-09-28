@@ -85,30 +85,24 @@ class MypageTest extends DuskTestCase
             // ログインしてマイページにアクセス
             $browser->loginAs($user)
                 ->visit('/mypage')
-                ->pause(2000)
                 // ユーザー名が表示されている
                 ->assertSee('テストユーザー')
                 // プロフィール画像が表示されている
                 ->assertPresent('.mypage__avatar-img')
-                ->pause(1000)
                 // 出品した商品が表示されている
                 ->assertSee('出品商品1')
                 ->assertSee('出品商品2')
-                ->pause(1000)
                 // 購入した商品が表示されていない
                 ->assertDontSee('購入商品1')
                 ->assertDontSee('購入商品2')
-                ->pause(1000)
                 // 購入した商品タブをクリック（リンクテキストで）
                 ->clickLink('購入した商品')
-                ->pause(2000)
                 // 購入した商品が表示されている
                 ->assertSee('購入商品1')
                 ->assertSee('購入商品2')
                 // 出品した商品が表示されていない
                 ->assertDontSee('出品商品1')
-                ->assertDontSee('出品商品2')
-                ->pause(1000);
+                ->assertDontSee('出品商品2');
         });
     }
 }

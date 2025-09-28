@@ -246,20 +246,6 @@ class ItemController extends Controller
             'building' => $user->building,
         ]);
 
-        // コンビニ支払いの場合はテスト用メールアドレスを設定、購入処理を実装
-        // (Stripeダッシュボードですぐに決済が完了されたことになる)
-        if ($paymentMethod === 'konbini') {
-            $email = "succeed_immediately@test.com";
-            $item->update([
-                'purchaser_id' => $user['id'],
-                'postal_code' => $shippingAddress['postal_code'],
-                'address' => $shippingAddress['address'],
-                'building' => $shippingAddress['building'],
-            ]);
-        } else {
-            $email = $user->email;
-        }
-
         // Stripeキーの確認
         $stripeSecret = config('services.stripe.secret');
         if (empty($stripeSecret) || $stripeSecret === 'your_stripe_secret_key_here') {
@@ -284,7 +270,6 @@ class ItemController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'customer_email' => $email,
                 'success_url' => url('/purchase/success?session_id={CHECKOUT_SESSION_ID}'),
                 'cancel_url' => url('/purchase/cancel'),
                 'metadata' => [
@@ -295,7 +280,10 @@ class ItemController extends Controller
                     'building' => $shippingAddress['building'] ?? '',
                 ],
             ]);
-
+            // Dusk環境では決済が完了した前提で、決済成功ルートへ
+            if (app()->environment('dusk')) {
+                return redirect('/purchase/success?session_id=' . $session->id);
+            }
             return redirect($session->url);
         } catch (\Exception $e) {
             return redirect('/purchase/' . $item_id);
@@ -321,11 +309,15 @@ class ItemController extends Controller
         if (empty($stripeSecret)) {
             return redirect('/')->with('error', 'Stripe決済の設定が完了していません');
         }
-
         Stripe::setApiKey($stripeSecret);
 
         try {
             $session = Session::retrieve($sessionId);
+
+            // Dusk環境ではStripe側の決済処理ができないため、決済完了フラグを設定
+            if (app()->environment('dusk')) {
+                $session->payment_status = 'paid';
+            }
 
             if ($session->payment_status === 'paid') {
                 $metadata = $session->metadata;
