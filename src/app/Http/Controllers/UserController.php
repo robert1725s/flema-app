@@ -9,20 +9,16 @@ use App\Http\Requests\ProfileRequest;
 
 class UserController extends Controller
 {
-    public function notice()
+    public function showNotice()
     {
         return view('auth.notice');
     }
 
-    public function Profile()
-    {
-        return view('profile');
-    }
 
     /**
      * マイページを表示する
      */
-    public function mypage(Request $request)
+    public function showMypage(Request $request)
     {
         $userId = auth()->id();
 
@@ -36,9 +32,17 @@ class UserController extends Controller
     }
 
     /**
+     * プロフィール編集画面を表示する
+     */
+    public function showProfile()
+    {
+        return view('profile');
+    }
+
+    /**
      * プロフィール更新処理
      */
-    public function update(ProfileRequest $request)
+    public function updateProfile(ProfileRequest $request)
     {
         /** @var \App\Models\User $user */
         $user = auth()->user();

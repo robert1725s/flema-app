@@ -33,7 +33,7 @@ class IndexTest extends DuskTestCase
             'password' => Hash::make('password123')
         ]);
 
-        // user2が出品した商品を3つ作成（名前を明示的に設定）
+        // user2が出品した商品を3つ作成
         $items = [
             Item::create([
                 'name' => '商品1',
@@ -111,7 +111,7 @@ class IndexTest extends DuskTestCase
             'price' => 2000,
             'condition' => 1,
             'seller_id' => $seller->id,
-            'purchaser_id' => $buyer->id, // 購入者あり
+            'purchaser_id' => $buyer->id,
         ]);
 
         $this->browse(function (Browser $browser) {

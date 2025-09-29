@@ -56,14 +56,20 @@ class CommentTest extends DuskTestCase
 
             // 商品詳細ページにアクセス
             $browser->visit("/item/{$item->id}")
+                // 初期のコメント数を確認（0件）
+                ->assertSeeIn('.detail__action-button--comment', '0')
+                ->assertSee('コメント(0)')
                 // 2. コメントを入力する
                 ->type('[name="comment"]', 'これは新しいコメントです')
                 // 3. コメントボタンを押す
                 ->press('コメントを送信する')
-                ->pause(1000) // Ajax処理待機
+                ->pause(500) // 処理待機
                 // コメントが表示されることを確認
                 ->assertSee('これは新しいコメントです')
-                ->assertSee('テストユーザー');
+                ->assertSee('テストユーザー')
+                // コメント数が増加したことを確認（1件）
+                ->assertSeeIn('.detail__action-button--comment', '1')
+                ->assertSee('コメント(1)');
         });
 
         // データベースにコメントが登録されていることを確認
@@ -104,7 +110,7 @@ class CommentTest extends DuskTestCase
                 ->type('[name="comment"]', 'ログインしていないユーザーのコメント')
                 // 2. コメントボタンを押す
                 ->press('コメントを送信する')
-                ->pause(1000)
+                ->pause(500)
                 ->assertDontSee('ログインしていないユーザーのコメント');
         });
 
@@ -158,7 +164,7 @@ class CommentTest extends DuskTestCase
             $browser->visit("/item/{$item->id}")
                 // 2. コメントボタンを押す（コメント未入力）
                 ->press('コメントを送信する')
-                ->pause(1000)
+                ->pause(500)
                 // バリデーションメッセージが表示されることを確認
                 ->assertSee('コメントを入力してください');
         });
@@ -217,7 +223,7 @@ class CommentTest extends DuskTestCase
                 ->type('[name="comment"]', $longComment)
                 // 3. コメントボタンを押す
                 ->press('コメントを送信する')
-                ->pause(1000)
+                ->pause(500)
                 // バリデーションメッセージが表示されることを確認
                 ->assertSee('コメントは255文字以内で入力してください');
         });

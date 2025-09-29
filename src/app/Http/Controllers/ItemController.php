@@ -16,7 +16,7 @@ use App\Http\Requests\ExhibitionRequest;
 
 class ItemController extends Controller
 {
-    public function index(Request $request)
+    public function showIndex(Request $request)
     {
         $query = Item::query();
         $search = $request->query('search');
@@ -43,7 +43,7 @@ class ItemController extends Controller
         return view('index', compact('items'));
     }
 
-    public function sell()
+    public function showSell()
     {
         $categories = Category::all();
 
@@ -79,7 +79,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\View\View
      */
-    public function detail($item_id)
+    public function showDetail($item_id)
     {
         // 商品情報を取得（関連データも含む）
         $item = Item::with(['seller', 'categories', 'comments.user', 'favorites'])
@@ -95,7 +95,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function favorite($item_id)
+    public function favoriteItem($item_id)
     {
         $item = Item::findOrFail($item_id);
         $user = auth()->user();
@@ -127,7 +127,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function comment(CommentRequest $request, $item_id)
+    public function commentItem(CommentRequest $request, $item_id)
     {
 
         $item = Item::findOrFail($item_id);
@@ -150,7 +150,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\View\View
      */
-    public function purchase($item_id)
+    public function showPurchase($item_id)
     {
         $item = Item::findOrFail($item_id);
 
@@ -175,7 +175,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\View\View
      */
-    public function editAddress($item_id)
+    public function showAddress($item_id)
     {
         // Sessionから現在の配送先を取得、なければユーザー情報を使用
         $currentAddress = session('shipping_address.' . $item_id, [
@@ -215,7 +215,7 @@ class ItemController extends Controller
      * @param int $item_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function checkout(PurchaseRequest $request, $item_id)
+    public function checkoutItem(PurchaseRequest $request, $item_id)
     {
 
         $item = Item::findOrFail($item_id);

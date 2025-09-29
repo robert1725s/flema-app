@@ -28,7 +28,7 @@ class CreateNewUser implements CreatesNewUsers
                     'email',
                     Rule::unique(User::class),
                 ],
-                'password' => $this->passwordRules(),
+                'password' => ['required', 'min:8'],
                 'password_confirmation' => ['same:password'],
             ],
             [

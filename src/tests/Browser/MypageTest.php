@@ -95,7 +95,7 @@ class MypageTest extends DuskTestCase
                 // 購入した商品が表示されていない
                 ->assertDontSee('購入商品1')
                 ->assertDontSee('購入商品2')
-                // 購入した商品タブをクリック（リンクテキストで）
+                // 購入した商品タブをクリック
                 ->clickLink('購入した商品')
                 // 購入した商品が表示されている
                 ->assertSee('購入商品1')

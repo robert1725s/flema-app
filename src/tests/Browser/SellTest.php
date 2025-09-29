@@ -64,7 +64,7 @@ class SellTest extends DuskTestCase
 
             $browser->attach('[name="image"]', $testImagePath)
 
-                // カテゴリを選択（複数選択） - ラベルをクリックする方法
+                // カテゴリを選択（複数選択）
                 ->click(".sell__category-tag:nth-of-type(1)")
                 ->click(".sell__category-tag:nth-of-type(2)")
 
@@ -78,7 +78,7 @@ class SellTest extends DuskTestCase
                 ->type('[name="brand"]', 'テストブランド')
 
                 // 商品の説明を入力
-                ->type('[name="description"]', 'これはテスト商品の詳細な説明文です。商品の特徴や状態について記載しています。')
+                ->type('[name="description"]', 'これはテスト商品の説明文です。')
 
                 // 販売価格を入力
                 ->type('[name="price"]', '15000')
@@ -86,7 +86,7 @@ class SellTest extends DuskTestCase
                 // 出品するボタンをクリック
                 ->press('出品する')
 
-                // 保存後の確認（実際の動作に合わせて/へリダイレクト）
+                // 保存後の確認
                 ->assertPathIs('/');
         });
 
@@ -94,7 +94,7 @@ class SellTest extends DuskTestCase
         $this->assertDatabaseHas('items', [
             'name' => 'テスト商品名',
             'brand' => 'テストブランド',
-            'description' => 'これはテスト商品の詳細な説明文です。商品の特徴や状態について記載しています。',
+            'description' => 'これはテスト商品の説明文です。',
             'price' => 15000,
             'condition' => 1,
             'seller_id' => $user->id,
@@ -102,7 +102,10 @@ class SellTest extends DuskTestCase
 
         // カテゴリーが正しく関連付けられたことを確認
         $item = Item::where('name', 'テスト商品名')->first();
-        $this->assertNotNull($item);
-        $this->assertEquals(2, $item->categories->count());
+
+        $categoryContents = $item->categories->pluck('content')->toArray();
+        $this->assertContains('ファッション', $categoryContents);
+        $this->assertContains('メンズ', $categoryContents);
+        $this->assertNotContains('トップス', $categoryContents);
     }
 }

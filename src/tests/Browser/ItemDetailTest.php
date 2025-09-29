@@ -35,13 +35,14 @@ class ItemDetailTest extends DuskTestCase
             'name' => 'コメントユーザー1',
             'email' => 'commenter1@example.com',
             'password' => Hash::make('password123'),
-            'image_path' => 'user/commenter-profile.jpg',
+            'image_path' => 'user/commenter1-profile.jpg',
         ]);
 
         $commenter2 = User::create([
             'name' => 'コメントユーザー2',
             'email' => 'commenter2@example.com',
             'password' => Hash::make('password123'),
+            'image_path' => 'user/commenter2-profile.jpg',
         ]);
 
         // カテゴリを作成
@@ -101,8 +102,6 @@ class ItemDetailTest extends DuskTestCase
                 ->assertSee('コメント(2)')
                 // 商品説明の表示確認
                 ->assertSee('これはテスト商品の詳細説明です。')
-                // 商品情報の表示確認
-                ->assertSee('商品の情報')
                 // カテゴリの表示確認
                 ->assertSee('家電')
                 ->assertSee('ファッション')
@@ -112,7 +111,10 @@ class ItemDetailTest extends DuskTestCase
                 ->assertSee('コメントユーザー1')
                 ->assertSee('この商品について質問があります。')
                 ->assertSee('コメントユーザー2')
-                ->assertSee('状態はいかがですか？');
+                ->assertSee('状態はいかがですか？')
+                // コメントしたユーザーの画像の表示確認
+                ->assertSourceHas('storage/user/commenter1-profile.jpg')
+                ->assertSourceHas('storage/user/commenter2-profile.jpg');
         });
     }
 

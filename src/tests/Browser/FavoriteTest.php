@@ -64,7 +64,7 @@ class FavoriteTest extends DuskTestCase
                 ->assertSeeIn('.detail__action-count', '0')
                 // 3. いいねアイコンを押下
                 ->click('.detail__action-button--favorite')
-                ->pause(1000) // Ajax処理待機
+                ->pause(500) // 処理待機
                 // いいね後の状態を確認
                 ->assertSeeIn('.detail__action-count', '1');
         });
@@ -127,7 +127,7 @@ class FavoriteTest extends DuskTestCase
                 ->assertMissing('.detail__action-icon--active')
                 // 3. いいねアイコンを押下
                 ->click('.detail__action-button--favorite')
-                ->pause(1000) // Ajax処理待機
+                ->pause(500) // 処理待機
                 // アイコンの色が変化することを確認
                 ->assertPresent('.fas.fa-star')
                 ->assertPresent('.detail__action-icon--active')
@@ -192,7 +192,7 @@ class FavoriteTest extends DuskTestCase
                 ->assertSeeIn('.detail__action-count', '1')
                 // 3. いいねアイコンを押下（解除）
                 ->click('.detail__action-button--favorite')
-                ->pause(1000) // Ajax処理待機
+                ->pause(500) // 処理待機
                 // お気に入り解除後の状態を確認
                 ->assertSeeIn('.detail__action-count', '0')
                 ->assertPresent('.far.fa-star')

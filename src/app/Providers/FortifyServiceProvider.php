@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
@@ -56,6 +55,7 @@ class FortifyServiceProvider extends ServiceProvider
 
                 if ($user->email_verified_at == null) {
                     // メール未認証の場合、認証メールを送信
+                    /** @var \App\Models\User $user */
                     $user->sendEmailVerificationNotification();
 
                     return redirect('/notice');

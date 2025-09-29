@@ -13,29 +13,19 @@
 1. docker-compose exec php bash
 2. composer install
 3. cp .env.example .env
-4. `.env` ファイルの 11 行目以降を以下に変更
+4. php artisan key:generate
+5. php artisan storage:link
+6. php artisan migrate
+7. php artisan db:seed
 
-```diff
-// 前略
+##### テスト環境設定
 
-DB_CONNECTION=mysql
-- DB_HOST=127.0.0.1
-+ DB_HOST=mysql
-DB_PORT=3306
-- DB_DATABASE=laravel
-- DB_USERNAME=root
-- DB_PASSWORD=
-+ DB_DATABASE=laravel_db
-+ DB_USERNAME=laravel_user
-+ DB_PASSWORD=laravel_pass
-
-// 後略
-```
-
-5. php artisan key:generate
-6. php artisan storage:link
-7. php artisan migrate
-8. php artisan db:seed
+1. cp .env.dusk.example .env.dusk
+2. php artisan key:generate --env=dusk
+3. docker-compose exec mysql bash
+4. mysql -u root -p
+   'root'を入力
+5. CREATE DATABASE demo_test;
 
 ## Stripe 決済の設定
 
@@ -54,7 +44,7 @@ DB_PORT=3306
 
 #### 環境変数の設定
 
-`.env`ファイルの 40,41 行目に以下を設定：
+`.env`、`.env.dusk`ファイルの 40,41 行目に以下を設定：
 
 ```env
 STRIPE_KEY=pk_test_your_public_key_here
@@ -75,9 +65,22 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 -   **カード番号**: `4242 4242 4242 4242`
 -   **有効期限**: 任意の将来の日付（例: 12/34）
 -   **CVC**: 任意の 3 桁の数字（例: 123）
--   **郵便番号**: 任意の 5 桁（例: 12345）
 
 詳細は[Stripe のテストカード一覧](https://stripe.com/docs/testing#cards)を参照してください。
+
+#### ログイン情報
+
+以下のユーザがシーディングファイルを実行することで、DB に登録されます。
+
+```
+・メール認証完了ユーザ
+メールアドレス：admin@hoge.com
+パスワード：12345678
+
+・メール認証未完了ユーザ
+メールアドレス：test@hoge.com
+パスワード：12345678
+```
 
 ## 使用技術
 
@@ -88,6 +91,8 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 -   **mailhog 1.0.1**
 
 ## ER 図
+
+<img width="891" height="942" alt="Image" src="https://github.com/user-attachments/assets/aeb61e76-c686-464f-a9c9-30ba055fcfda" />
 
 ## URL
 

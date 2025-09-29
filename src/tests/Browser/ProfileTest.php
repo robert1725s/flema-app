@@ -51,8 +51,7 @@ class ProfileTest extends DuskTestCase
                 // 住所の入力フィールドに初期値が設定されている
                 ->assertInputValue('[name="address"]', '東京都渋谷区道玄坂1-2-3')
                 // 建物名の入力フィールドに初期値が設定されている
-                ->assertInputValue('[name="building"]', 'テストマンション101号室')
-                ->pause(1000);
+                ->assertInputValue('[name="building"]', 'テストマンション101号室');
         });
     }
 }
