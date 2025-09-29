@@ -9,7 +9,7 @@
                 <div class="item__sold-label">SOLD</div>
             @endif
         </div>
-        <div class="item__name">{{ $item->name }}</div>
+        <div class="item__name">{{ Str::limit($item->name, 25, '...') }}</div>
     </a>
 </div>
 

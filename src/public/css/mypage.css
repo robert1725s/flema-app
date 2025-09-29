@@ -8,14 +8,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1010px;
+    max-width: 1050px;
     margin: 78px auto;
 }
 
 .mypage__user-content {
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 60px;
 }
 
 .mypage__avatar {
@@ -46,7 +46,7 @@
 
 .mypage__profile-button {
     display: inline-block;
-    padding: 12px 35px;
+    padding: 12px 25px;
     border: 2px solid #ff5555;
     color: #ff5555;
     text-decoration: none;
@@ -100,6 +100,7 @@
 @media screen and (max-width: 1399px) {
     /* ユーザー情報セクション */
     .mypage__user-info {
+        flex-direction: column;
         gap: 25px;
         max-width: 700px;
         margin: 60px auto;
@@ -155,8 +156,6 @@
 @media screen and (max-width: 850px) {
     /* ユーザー情報セクション */
     .mypage__user-info {
-        flex-direction: column;
-        gap: 30px;
         max-width: 600px;
         margin: 50px auto;
         padding: 0 30px;

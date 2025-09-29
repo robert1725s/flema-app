@@ -173,6 +173,7 @@
     display: flex;
     gap: 10px;
     font-weight: 400;
+    flex-wrap: wrap;
 }
 
 .detail__category-tag {

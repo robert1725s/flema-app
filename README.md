@@ -23,8 +23,8 @@
 1. cp .env.dusk.example .env.dusk
 2. php artisan key:generate --env=dusk
 3. docker-compose exec mysql bash
-4. mysql -u root -p
-   'root'を入力
+4. mysql -u root -p<br>
+   `rootを入力`
 5. CREATE DATABASE demo_test;
 
 ## Stripe 決済の設定
@@ -73,11 +73,11 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 以下のユーザがシーディングファイルを実行することで、DB に登録されます。
 
 ```
-・メール認証完了ユーザ
+・メール認証完了、住所情報ありユーザ
 メールアドレス：admin@hoge.com
 パスワード：12345678
 
-・メール認証未完了ユーザ
+・メール認証未完了、住所情報なしユーザ
 メールアドレス：test@hoge.com
 パスワード：12345678
 ```

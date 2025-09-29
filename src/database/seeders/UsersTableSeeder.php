@@ -23,12 +23,18 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin@hoge.com',
                 'password' => Hash::make('12345678'),
                 'filename' => 'admin_profile.jpg',
+                'postal_code' => '222-2222',
+                'address' => '東京都渋谷区2-2-2',
+                'building' => 'タワマン',
             ],
             [
                 'name' => 'test',
                 'email' => 'test@hoge.com',
                 'password' => Hash::make('12345678'),
                 'filename' => 'test_profile.jpg',
+                'postal_code' => null,
+                'address' => null,
+                'building' => null,
             ]
         ];
 
@@ -52,6 +58,9 @@ class UsersTableSeeder extends Seeder
                     'password' => $userData['password'],
                     'image_path' => $imagePath,
                     'email_verified_at' => null,
+                    'postal_code' => $userData['postal_code'],
+                    'address' => $userData['address'],
+                    'building' => $userData['building'],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
