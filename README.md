@@ -20,12 +20,20 @@
 
 ##### テスト環境設定
 
+1. cp .env.testing.example .env.testing
+2. php artisan key:generate --env=testing
+
+```
+Seleniumを利用したBrowserTestを実行するには、以下のコマンドを実行する
+(JavaScriptの動的な挙動も確認可能)
+```
+
 1. cp .env.dusk.example .env.dusk
 2. php artisan key:generate --env=dusk
-3. docker-compose exec mysql bash
-4. mysql -u root -p<br>
-   `rootを入力`
-5. CREATE DATABASE demo_test;
+
+```
+テスト実行コマンドは、下の#テスト実行を参照
+```
 
 ## Stripe 決済の設定
 
@@ -37,14 +45,14 @@
 
 #### テスト用 API キーの取得
 
-1. Stripe ダッシュボードで「開発者」→「API キー」を選択
-2. テスト環境のキーを確認：
-    - **公開可能キー**: `pk_test_...` で始まる
-    - **秘密キー**: `sk_test_...` で始まる
+Stripe ダッシュボードでテスト環境のキーを確認：
+
+-   **公開可能キー**: `pk_test_...` で始まる
+-   **秘密キー**: `sk_test_...` で始まる
 
 #### 環境変数の設定
 
-`.env`、`.env.dusk`ファイルの 40,41 行目に以下を設定：
+`.env`、`env.testing`、`.env.dusk`ファイルの 40,41 行目にキーを設定：
 
 ```env
 STRIPE_KEY=pk_test_your_public_key_here
@@ -60,7 +68,7 @@ STRIPE_SECRET=sk_test_your_secret_key_here
 
 #### テスト用カード情報
 
-Stripe 決済のテストには以下のカード番号を使用してください：
+Stripe 決済には以下のカード番号を使用してください：
 
 -   **カード番号**: `4242 4242 4242 4242`
 -   **有効期限**: 任意の将来の日付（例: 12/34）
@@ -82,6 +90,38 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 パスワード：12345678
 ```
 
+#### テスト実行
+
+UnitTest は、PHP コンテナ内で以下を実行
+
+```
+vendor/bin/phpunit
+```
+
+BrowserTest は、PHP コンテナ内で以下を実行
+
+```php
+// 全てのBrowserTestを実行
+php artisan dusk
+// 一部のBrowserTestを実行(例:RegisterTest.php)
+php artisan dusk --filter RegisterTest
+```
+
+**注意事項**
+
+Dusk テスト実行中に強制終了（Ctrl+C など）すると、`.env`ファイルが`.env.dusk`の内容で上書きされたままになる可能性があります。
+
+この場合、以下の手順で復旧してください：
+
+```bash
+# .envファイルを元に戻す(.env.backupファイルが生成されてる場合)
+cp .env.backup .env
+
+# .envファイルを元に戻す
+cp .env.example .env
+php artisan key:generate
+```
+
 ## 使用技術
 
 -   **PHP 8.1**
@@ -89,6 +129,7 @@ Stripe 決済のテストには以下のカード番号を使用してくださ�
 -   **MySQL 8.0**
 -   **selenium 4.1.3**
 -   **mailhog 1.0.1**
+-   **JavaScript**
 
 ## ER 図
 

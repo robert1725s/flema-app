@@ -280,8 +280,8 @@ class ItemController extends Controller
                     'building' => $shippingAddress['building'] ?? '',
                 ],
             ]);
-            // Dusk環境では決済が完了した前提で、決済成功ルートへ
-            if (app()->environment('dusk')) {
+            // テスト環境では決済が完了した前提で、決済成功ルートへ
+            if (app()->environment('testing')) {
                 return redirect('/purchase/success?session_id=' . $session->id);
             }
             return redirect($session->url);
@@ -314,8 +314,8 @@ class ItemController extends Controller
         try {
             $session = Session::retrieve($sessionId);
 
-            // Dusk環境ではStripe側の決済処理ができないため、決済完了フラグを設定
-            if (app()->environment('dusk')) {
+            // テスト環境ではStripe側の決済処理ができないため、決済完了フラグを設定
+            if (app()->environment('testing')) {
                 $session->payment_status = 'paid';
             }
 

@@ -31,7 +31,6 @@ class UsersTableSeeder extends Seeder
                 'name' => 'test',
                 'email' => 'test@hoge.com',
                 'password' => Hash::make('12345678'),
-                'filename' => 'test_profile.jpg',
                 'postal_code' => null,
                 'address' => null,
                 'building' => null,
@@ -41,37 +40,41 @@ class UsersTableSeeder extends Seeder
         $users = [];
 
         foreach ($usersData as $index => $userData) {
+            $imagePath = null;
 
-            // Picsumから画像をダウンロード（各ユーザーに異なる画像）
-            $picsumUrl = "https://picsum.photos/150/150?random=" . ($index + 1);
-            $response = Http::timeout(10)->get($picsumUrl);
+            // adminユーザーのみ画像を設定
+            if ($userData['email'] === 'admin@hoge.com') {
+                // Picsumから画像をダウンロード
+                $picsumUrl = "https://picsum.photos/150/150?random=" . ($index + 1);
+                $response = Http::timeout(5)->get($picsumUrl);
 
-            if ($response->successful()) {
-                // storage/app/public/users に保存
-                $imagePath = 'users/' . $userData['filename'];
-                Storage::disk('public')->put($imagePath, $response->body());
-
-                // データベース用のユーザーデータを準備
-                $userData = [
-                    'name' => $userData['name'],
-                    'email' => $userData['email'],
-                    'password' => $userData['password'],
-                    'image_path' => $imagePath,
-                    'email_verified_at' => null,
-                    'postal_code' => $userData['postal_code'],
-                    'address' => $userData['address'],
-                    'building' => $userData['building'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-
-                // adminユーザーのみメール認証済みにする
-                if ($userData['email'] === 'admin@hoge.com') {
-                    $userData['email_verified_at'] = now();
+                if ($response->successful()) {
+                    // storage/app/public/users に保存
+                    $imagePath = 'users/' . $userData['filename'];
+                    Storage::disk('public')->put($imagePath, $response->body());
                 }
-
-                $users[] = $userData;
             }
+
+            // データベース用のユーザーデータを準備
+            $userData = [
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'password' => $userData['password'],
+                'image_path' => $imagePath,
+                'email_verified_at' => null,
+                'postal_code' => $userData['postal_code'],
+                'address' => $userData['address'],
+                'building' => $userData['building'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            // adminユーザーのみメール認証済みにする
+            if ($userData['email'] === 'admin@hoge.com') {
+                $userData['email_verified_at'] = now();
+            }
+
+            $users[] = $userData;
         }
 
         DB::table('users')->insert($users);
