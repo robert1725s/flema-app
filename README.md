@@ -1,4 +1,6 @@
-# coachtech フリマ
+# フリマアプリ
+<img width="908" height="912" alt="image" src="https://github.com/user-attachments/assets/7640fed3-9050-4b7d-a177-76ebe8a9728d" />
+
 
 ## 環境構築
 
