@@ -1,6 +1,11 @@
 # フリマアプリ
 <img width="908" height="912" alt="image" src="https://github.com/user-attachments/assets/7640fed3-9050-4b7d-a177-76ebe8a9728d" />
 
+## 概要
+Laravelを用いて作成したフリマアプリです。
+
+ユーザー登録・ログイン、商品出品、商品購入、お気に入り登録、コメント、プロフィール設定などの機能を実装しています。
+Stripe決済、メール認証、Laravel Duskによるブラウザテストにも対応しています。
 
 ## 環境構築
 
